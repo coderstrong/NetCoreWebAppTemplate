@@ -5,11 +5,19 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Project.MVC.Models;
+using Project.Service;
+using Project.Domain;
 
 namespace Project.MVC.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly IUserService _userService;
+        
+        public HomeController(IUserService userService){
+            this._userService = userService;
+        }
+        
         public IActionResult Index()
         {
             return View();
@@ -18,6 +26,15 @@ namespace Project.MVC.Controllers
         public IActionResult About()
         {
             ViewData["Message"] = "Your application description page.";
+            User u = new User
+            {
+                Id = 1,
+                UserName = "test",
+                Email = "test",
+                Password= "test"
+            };
+
+            _userService.Add(u);
 
             return View();
         }

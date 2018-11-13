@@ -9,6 +9,10 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Project.Infrastructure.Dapper;
+using Project.Service;
+using Project.Service.Implement;
+using Project.MVC.Infrastructure;
 
 namespace Project.MVC
 {
@@ -24,6 +28,8 @@ namespace Project.MVC
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMvc();
+
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
@@ -31,8 +37,13 @@ namespace Project.MVC
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            services.AddDapper(options =>
+            {
+                options.ConnectionString = Configuration.GetConnectionString("SqlServerConnectionString");
+                options.DatabaseType = DatabaseType.SqlServer;
+            });
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            ServiceConfig.RegisterService(Configuration, services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
