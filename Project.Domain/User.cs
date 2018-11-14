@@ -5,8 +5,8 @@ namespace Project.Domain
     [Table("tb_user")]
     public class User
     {
-        // [Key] if column auto increment
-        [ExplicitKey]
+        [Key]
+        // [ExplicitKey] if column not auto increment else [Key]
         public int Id { get; set; }
         public string UserName { get; set; }
         public string Email { get; set; }
