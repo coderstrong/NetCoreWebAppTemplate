@@ -35,10 +35,27 @@ namespace Project.Infrastructure.Dapper
             Connection.ConnectionString = _options.ConnectionString;
         }
 
+        public IEnumerable<T> SelectAll(){
+            return this.Connection.GetAll<T>();
+        }
+
+        public T Select(long id){
+            return this.Connection.Get<T>(id);
+        }
+
         public long Insert(T entity)
         {
             return this.Connection.Insert(entity);
         }
+
+        public bool Update(T entity){
+            return this.Connection.Update(entity);
+        }
+
+        public bool Delete(T entity){
+            return this.Connection.Delete(entity);
+        }
+
     }
 
 }
